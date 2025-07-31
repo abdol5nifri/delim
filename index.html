@@ -1,103 +1,71 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تحويل النصوص</title>
+  <title>賲丨賵賾賱 丕賱賰賱賲丕鬲</title>
   <style>
     body {
-      font-family: Tahoma, sans-serif;
-      direction: rtl;
-      background: #f9f9f9;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
       padding: 20px;
-      text-align: center;
+      direction: rtl;
+      text-align: right;
     }
 
-    textarea {
+    textarea, select, button {
       width: 100%;
-      max-width: 600px;
-      height: 150px;
       padding: 10px;
-      font-size: 16px;
+      margin: 10px 0;
       border-radius: 6px;
       border: 1px solid #ccc;
-      resize: none;
+      font-size: 16px;
       box-sizing: border-box;
     }
 
-    #output {
-      direction: ltr;
-    }
-
-    select, button {
-      margin: 6px 4px;
-      padding: 10px 15px;
-      font-size: 15px;
-      border-radius: 6px;
+    button {
+      background-color: #3498db;
+      color: white;
       border: none;
       cursor: pointer;
-      width: auto;
-      max-width: 90vw;
-    }
-
-    .blue { background-color: #007bff; color: white; }
-    .green { background-color: #28a745; color: white; }
-    .red { background-color: #dc3545; color: white; }
-    .orange { background-color: #fd7e14; color: white; }
-    .gray { background-color: #6c757d; color: white; }
-    .purple { background-color: #6f42c1; color: white; }
-
-    #copyMsg {
-      display: none;
-      background: #d4edda;
-      color: #155724;
-      padding: 10px;
-      border-radius: 8px;
-      width: fit-content;
-      margin: 10px auto;
       font-weight: bold;
     }
 
-    @media (max-width: 600px) {
-      h2 {
-        font-size: 20px;
-      }
+    button:hover {
+      background-color: #2980b9;
+    }
 
-      button, select {
-        width: 100%;
-        margin-top: 8px;
-      }
-
-      textarea {
-        height: 120px;
-        font-size: 14px;
-      }
+    #copyMsg {
+      color: green;
+      display: none;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+  <h2>賲丨賵賾賱 丕賱賰賱賲丕鬲 賵丕賱賮賵丕氐賱</h2>
 
-  <h2>🔁 تحويل النصوص بين الفواصل والأسطر</h2>
+  <label for="input">兀丿禺賱 丕賱賳氐:</label>
+  <textarea id="input" rows="6" placeholder="兀丿禺賱 丕賱賰賱賲丕鬲 賴賳丕..."></textarea>
 
-  <textarea id="input" placeholder="اكتب هنا..."></textarea><br>
-
+  <label for="separator">丕禺鬲乇 賳賵毓 丕賱賮丕氐賱:</label>
   <select id="separator">
-    <option value=",">فاصلة (,)</option>
-    <option value="/">سلاش (/)</option>
-    <option value="|">بايب (|)</option>
-    <option value=" ">فراغ (مسافة)</option>
-  </select><br>
+    <option value=",">賮丕氐賱丞 ,</option>
+    <option value="/">爻賱丕卮 /</option>
+    <option value="|">亘丕賷亘 |</option>
+    <option value=" ">賮乇丕睾</option>
+  </select>
 
-  <button class="blue" onclick="convertToSeparator()">تحويل لفاصل ➡️</button>
-  <button class="orange" onclick="convertToLines()">تحويل لأسطر ⬇️</button>
-  <button class="purple" onclick="replaceSeparators()">تبديل الفواصل 🔁</button>
-  <button class="gray" onclick="removeAllSeparators()">إزالة الفواصل 🧹</button><br>
+  <button onclick="convertToSeparator()">鬲丨賵賷賱 賰賱 爻胤乇 廿賱賶 賮丕氐賱</button>
+  <button onclick="convertToLines()">鬲丨賵賷賱 丕賱賮賵丕氐賱 廿賱賶 爻胤賵乇</button>
+  <button onclick="replaceSeparators()">鬲亘丿賷賱 賳賵毓 丕賱賮丕氐賱</button>
+  <button onclick="removeAllSeparators()">丨匕賮 噩賲賷毓 丕賱賮賵丕氐賱 賵賵囟毓 賰賱 賰賱賲丞 亘爻胤乇</button>
+  <button onclick="copyOutput()">賳爻禺 丕賱賳鬲賷噩丞</button>
+  <button onclick="clearAll()">賲爻丨 丕賱賰賱</button>
 
-  <button class="green" onclick="copyOutput()">نسخ النتيجة 📋</button>
-  <button class="red" onclick="clearAll()">مسح الكل 🗑️</button>
-
-  <textarea id="output" readonly placeholder="النتيجة هنا..."></textarea>
-  <div id="copyMsg">✅ تم النسخ بنجاح!</div>
+  <label for="output">丕賱賳鬲賷噩丞:</label>
+  <textarea id="output" rows="6" placeholder="爻鬲馗賴乇 丕賱賳鬲賷噩丞 賴賳丕..."></textarea>
+  <div id="copyMsg">鉁� 鬲賲 賳爻禺 丕賱賳鬲賷噩丞!</div>
 
   <script>
     function convertToSeparator() {
@@ -112,18 +80,9 @@
       const input = document.getElementById("input").value;
       const separator = document.getElementById("separator").value;
       const escapedSeparator = separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const words = input.split(new RegExp(escapedSeparator, "g"))
-                         .map(word => word.trim())
-                         .filter(word => word !== "");
-      document.getElementById("output").value = words.join("\n");
-    }
-
-    function removeAllSeparators() {
-      const input = document.getElementById("input").value;
-      const words = input.split(/[,\|\/\s]+/)
-                         .map(w => w.trim())
-                         .filter(w => w !== "");
-      document.getElementById("output").value = words.join("\n");
+      const words = input.split(new RegExp(escapedSeparator)).map(word => word.trim()).filter(word => word !== "");
+      const result = words.join("\n");
+      document.getElementById("output").value = result;
     }
 
     function replaceSeparators() {
@@ -134,6 +93,16 @@
         .map(w => w.trim())
         .filter(w => w !== "")
         .join(newSeparator);
+      document.getElementById("output").value = result;
+    }
+
+    function removeAllSeparators() {
+      const input = document.getElementById("input").value;
+      const words = input
+        .split(/[,\|\/\s]+/)
+        .map(w => w.trim())
+        .filter(w => w !== "");
+      const result = words.join("\n");
       document.getElementById("output").value = result;
     }
 
@@ -154,6 +123,5 @@
       document.getElementById("output").value = "";
     }
   </script>
-
 </body>
 </html>
