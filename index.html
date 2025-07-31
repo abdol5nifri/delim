@@ -3,69 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>محوّل الكلمات</title>
+  <title>أداة تحويل النصوص والفواصل</title>
   <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f2f2;
-      padding: 20px;
-      direction: rtl;
-      text-align: right;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
 
-    textarea, select, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 16px;
+    * {
       box-sizing: border-box;
     }
 
-    button {
-      background-color: #3498db;
-      color: white;
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #4A90E2, #F5A623);
+      direction: rtl;
+      margin: 0;
+      padding: 20px;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 2rem;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 700px;
+      height: 150px;
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: 10px;
       border: none;
+      outline: none;
+      resize: vertical;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label, select {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background-color: #fff;
+      color: #333;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    button {
+      flex: 1 1 130px;
+      padding: 12px;
+      background: linear-gradient(135deg, #50E3C2, #B8E986);
+      border: none;
+      border-radius: 12px;
+      color: #222;
+      font-weight: 700;
+      font-size: 1rem;
       cursor: pointer;
-      font-weight: bold;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
 
     button:hover {
-      background-color: #2980b9;
+      background: linear-gradient(135deg, #38B28A, #90C752);
+      transform: scale(1.03);
     }
 
-    #copyMsg {
-      color: green;
-      display: none;
-      margin-top: 10px;
+    button:active {
+      transform: scale(0.98);
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 480px) {
+      button {
+        flex: 1 1 100%;
+      }
+      textarea {
+        height: 140px;
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>محوّل الكلمات والفواصل</h2>
 
-  <label for="input">أدخل النص:</label>
-  <textarea id="input" rows="6" placeholder="أدخل الكلمات هنا..."></textarea>
+  <h2>أداة تحويل النصوص والفواصل</h2>
 
-  <label for="separator">اختر نوع الفاصل:</label>
-  <select id="separator">
-    <option value=",">فاصلة ,</option>
-    <option value="/">سلاش /</option>
-    <option value="|">بايب |</option>
-    <option value=" ">فراغ</option>
-  </select>
+  <textarea id="input" placeholder="أدخل النص هنا..."></textarea>
 
-  <button onclick="convertToSeparator()">تحويل كل سطر إلى فاصل</button>
-  <button onclick="convertToLines()">تحويل الفواصل إلى سطور</button>
-  <button onclick="replaceSeparators()">تبديل نوع الفاصل</button>
-  <button onclick="removeAllSeparators()">حذف جميع الفواصل ووضع كل كلمة بسطر</button>
-  <button onclick="copyOutput()">نسخ النتيجة</button>
-  <button onclick="clearAll()">مسح الكل</button>
+  <div style="margin-bottom: 15px;">
+    <label for="separator">اختار نوع الفاصل:</label>
+    <select id="separator">
+      <option value=",">فاصلة ,</option>
+      <option value="/">سلاش /</option>
+      <option value="|">بايب |</option>
+      <option value=" ">مسافة</option>
+    </select>
+  </div>
 
-  <label for="output">النتيجة:</label>
-  <textarea id="output" rows="6" placeholder="ستظهر النتيجة هنا..."></textarea>
-  <div id="copyMsg">✅ تم نسخ النتيجة!</div>
+  <div class="buttons">
+    <button onclick="convertToSeparator()">تحويل إلى فواصل</button>
+    <button onclick="convertToLines()">تحويل إلى أسطر</button>
+    <button onclick="replaceSeparators()">تبديل نوع الفاصل</button>
+    <button onclick="removeAllSeparators()">حذف جميع الفواصل</button>
+    <button onclick="clearAll()">مسح الكل</button>
+    <button onclick="copyResult()">نسخ النتيجة</button>
+  </div>
+
+  <h3>النتيجة:</h3>
+  <textarea id="output" readonly placeholder="ستظهر النتيجة هنا..."></textarea>
 
   <script>
     function convertToSeparator() {
@@ -78,50 +151,41 @@
 
     function convertToLines() {
       const input = document.getElementById("input").value;
-      const separator = document.getElementById("separator").value;
-      const escapedSeparator = separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const words = input.split(new RegExp(escapedSeparator)).map(word => word.trim()).filter(word => word !== "");
-      const result = words.join("\n");
-      document.getElementById("output").value = result;
+      const parts = input.split(/[,\|\/]+/).map(part => part.trim()).filter(part => part !== "");
+      document.getElementById("output").value = parts.join("\n");
     }
 
     function replaceSeparators() {
-      const inputText = document.getElementById("input").value;
+      const input = document.getElementById("input").value;
       const newSeparator = document.getElementById("separator").value;
-      const result = inputText
-        .split(/[,\|\/\s]+/)
-        .map(w => w.trim())
-        .filter(w => w !== "")
-        .join(newSeparator);
-      document.getElementById("output").value = result;
+      const replaced = input.replace(/[,\|\/]/g, newSeparator);
+      document.getElementById("output").value = replaced;
     }
 
     function removeAllSeparators() {
       const input = document.getElementById("input").value;
-      const words = input
-        .split(/[,\|\/\s]+/)
-        .map(w => w.trim())
-        .filter(w => w !== "");
-      const result = words.join("\n");
-      document.getElementById("output").value = result;
-    }
-
-    function copyOutput() {
-      const output = document.getElementById("output");
-      output.select();
-      document.execCommand("copy");
-
-      const msg = document.getElementById("copyMsg");
-      msg.style.display = "block";
-      setTimeout(() => {
-        msg.style.display = "none";
-      }, 2000);
+      const lines = input.split(/\n+/).map(line =>
+        line.split(/[,\|\/]/)
+            .filter(w => w.trim() !== "")
+            .join(" ")
+      );
+      document.getElementById("output").value = lines.join("\n");
     }
 
     function clearAll() {
       document.getElementById("input").value = "";
       document.getElementById("output").value = "";
     }
+
+    function copyResult() {
+      const output = document.getElementById("output");
+      navigator.clipboard.writeText(output.value).then(() => {
+        alert("✅ تم نسخ النتيجة");
+      }).catch(() => {
+        alert("❌ فشل النسخ");
+      });
+    }
   </script>
+
 </body>
 </html>
