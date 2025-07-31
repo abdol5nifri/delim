@@ -2,6 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>تحويل النصوص</title>
   <style>
     body {
@@ -13,13 +14,15 @@
     }
 
     textarea {
-      width: 90%;
+      width: 100%;
+      max-width: 600px;
       height: 150px;
       padding: 10px;
       font-size: 16px;
       border-radius: 6px;
       border: 1px solid #ccc;
       resize: none;
+      box-sizing: border-box;
     }
 
     #output {
@@ -27,12 +30,14 @@
     }
 
     select, button {
-      margin: 6px;
+      margin: 6px 4px;
       padding: 10px 15px;
       font-size: 15px;
       border-radius: 6px;
       border: none;
       cursor: pointer;
+      width: auto;
+      max-width: 90vw;
     }
 
     .blue { background-color: #007bff; color: white; }
@@ -51,6 +56,22 @@
       width: fit-content;
       margin: 10px auto;
       font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 20px;
+      }
+
+      button, select {
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      textarea {
+        height: 120px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -104,6 +125,38 @@
                          .filter(w => w !== "");
       document.getElementById("output").value = words.join("\n");
     }
+
+    function replaceSeparators() {
+      const inputText = document.getElementById("input").value;
+      const newSeparator = document.getElementById("separator").value;
+      const result = inputText
+        .split(/[,\|\/\s]+/)
+        .map(w => w.trim())
+        .filter(w => w !== "")
+        .join(newSeparator);
+      document.getElementById("output").value = result;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById("output");
+      output.select();
+      document.execCommand("copy");
+
+      const msg = document.getElementById("copyMsg");
+      msg.style.display = "block";
+      setTimeout(() => {
+        msg.style.display = "none";
+      }, 2000);
+    }
+
+    function clearAll() {
+      document.getElementById("input").value = "";
+      document.getElementById("output").value = "";
+    }
+  </script>
+
+</body>
+</html>    }
 
     function replaceSeparators() {
       const inputText = document.getElementById("input").value;
