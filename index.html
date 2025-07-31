@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>تحويل النصوص</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      direction: rtl;
+      background: #f9f9f9;
+      padding: 20px;
+      text-align: center;
+    }
+
+    textarea {
+      width: 90%;
+      height: 150px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: none;
+    }
+
+    #output {
+      direction: ltr;
+    }
+
+    select, button {
+      margin: 6px;
+      padding: 10px 15px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .blue { background-color: #007bff; color: white; }
+    .green { background-color: #28a745; color: white; }
+    .red { background-color: #dc3545; color: white; }
+    .orange { background-color: #fd7e14; color: white; }
+    .gray { background-color: #6c757d; color: white; }
+    .purple { background-color: #6f42c1; color: white; }
+
+    #copyMsg {
+      display: none;
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 8px;
+      width: fit-content;
+      margin: 10px auto;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🔁 تحويل النصوص بين الفواصل والأسطر</h2>
+
+  <textarea id="input" placeholder="اكتب هنا..."></textarea><br>
+
+  <select id="separator">
+    <option value=",">فاصلة (,)</option>
+    <option value="/">سلاش (/)</option>
+    <option value="|">بايب (|)</option>
+    <option value=" ">فراغ (مسافة)</option>
+  </select><br>
+
+  <button class="blue" onclick="convertToSeparator()">تحويل لفاصل ➡️</button>
+  <button class="orange" onclick="convertToLines()">تحويل لأسطر ⬇️</button>
+  <button class="purple" onclick="replaceSeparators()">تبديل الفواصل 🔁</button>
+  <button class="gray" onclick="removeAllSeparators()">إزالة الفواصل 🧹</button><br>
+
+  <button class="green" onclick="copyOutput()">نسخ النتيجة 📋</button>
+  <button class="red" onclick="clearAll()">مسح الكل 🗑️</button>
+
+  <textarea id="output" readonly placeholder="النتيجة هنا..."></textarea>
+  <div id="copyMsg">✅ تم النسخ بنجاح!</div>
+
+  <script>
+    function convertToSeparator() {
+      const input = document.getElementById("input").value;
+      const separator = document.getElementById("separator").value;
+      const lines = input.split(/\n+/).map(line => line.trim()).filter(line => line !== "");
+      const result = lines.join(separator);
+      document.getElementById("output").value = result;
+    }
+
+    function convertToLines() {
+      const input = document.getElementById("input").value;
+      const separator = document.getElementById("separator").value;
+      const escapedSeparator = separator.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const words = input.split(new RegExp(escapedSeparator, "g"))
+                         .map(word => word.trim())
+                         .filter(word => word !== "");
+      document.getElementById("output").value = words.join("\n");
+    }
+
+    function removeAllSeparators() {
+      const input = document.getElementById("input").value;
+      const words = input.split(/[,\|\/\s]+/)
+                         .map(w => w.trim())
+                         .filter(w => w !== "");
+      document.getElementById("output").value = words.join("\n");
+    }
+
+    function replaceSeparators() {
+      const inputText = document.getElementById("input").value;
+      const newSeparator = document.getElementById("separator").value;
+      const result = inputText
+        .split(/[,\|\/\s]+/)
+        .map(w => w.trim())
+        .filter(w => w !== "")
+        .join(newSeparator);
+      document.getElementById("output").value = result;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById("output");
+      output.select();
+      document.execCommand("copy");
+
+      const msg = document.getElementById("copyMsg");
+      msg.style.display = "block";
+      setTimeout(() => {
+        msg.style.display = "none";
+      }, 2000);
+    }
+
+    function clearAll() {
+      document.getElementById("input").value = "";
+      document.getElementById("output").value = "";
+    }
+  </script>
+
+</body>
+</html>
